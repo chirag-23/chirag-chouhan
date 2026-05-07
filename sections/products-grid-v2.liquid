@@ -1,0 +1,262 @@
+{{ 'products-grid-v2.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'product-grid-v2.js' | asset_url }}" defer></script>
+
+<section 
+    class="products-grid-container color-{{ section.settings.color_scheme }}"
+    style="
+        --padding-top: {{ section.settings.padding_top }}px;
+        --padding-bottom: {{ section.settings.padding_bottom }}px;
+        --padding-top-sm: {{ section.settings.padding_top_sm }}px;
+        --padding-bottom-sm: {{ section.settings.padding_bottom_sm }}px;
+        --cols: {{ section.settings.cols }};
+        --cols-sm: {{ section.settings.cols_sm }};
+    "
+>
+    {% if section.settings.heading != blank %}
+        <h2 class="products-grid-heading">
+            {{ section.settings.heading }}
+        </h2>
+    {% endif %}
+    {% if section.settings.prods != blank %}
+        <div class="product-grid">
+            {% for product in section.settings.prods %}
+                <button
+                    class="product-card"
+                    type="button"
+                    data-product-handle="{{ product.handle }}"
+                >
+                    {{ product.featured_image | image_url: width: 720 | image_tag: class: 'prod-img', loading: 'lazy', alt: product.title }}
+                </button>
+
+                <quick-add-modal
+                    class="quick-add-modal"
+                    data-product-handle="{{ product.handle }}"
+                >
+                    <div class="quick-add-overlay"></div>
+
+                    <div class="quick-add-dialog">
+                        <button
+                            class="quick-add-close"
+                            type="button"
+                        >
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4.24219 4.24279L12.7275 12.7281" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                                <path d="M4.24219 12.7278L12.7275 4.24249" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+
+                        <div class="quick-add-layout">
+                            <div class="quick-add-content">
+                                <div class="quick-add-media">
+                                    {{
+                                        product.featured_image
+                                        | image_url: width: 900
+                                        | image_tag:
+                                        class: 'quick-add-image',
+                                        loading: 'lazy',
+                                        alt: product.title
+                                    }}
+                                </div>
+                                <div class="quick-add-static-content">
+                                    <h2 class="quick-add-title">
+                                        {{ product.title }}
+                                    </h2>
+                                    <p class="quick-add-price">
+                                        {{ product.selected_or_first_available_variant.price | money }}
+                                    </p>
+                                    <div class="quick-add-desc">
+                                        {{ product.description }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="quick-add-info">
+                                <div class="quick-add-variant-selector">
+                                    {% for option in product.options_with_values %}
+                                        <div class="quick-add-option-group">
+                                            <p class="quick-add-option-label">
+                                                {{ option.name }}
+                                            </p>
+    
+                                            {% assign option_name = option.name | downcase %}
+    
+                                            {% if option_name == 'color' %}
+                                                <div class="quick-add-color-list">
+                                                    {% for value in option.values %}
+                                                        <button
+                                                            type="button"
+                                                            class="
+                                                                quick-add-color
+                                                                {% if forloop.first %}active{% endif %}
+                                                            "
+                                                            data-option-position="{{ option.position }}"
+                                                            data-option-value="{{ value }}"
+                                                        >
+                                                            <span class="quick-add-clr" style="background-color: {{ value | downcase }};"></span>
+                                                            <span class="quick-add-clr-text">{{ value }}</span>
+                                                        </button>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                <custom-select
+                                                    class="custom-select"
+                                                    data-option-position="{{ option.position }}"
+                                                    data-value="{{ option.values.first }}"
+                                                >
+                                                    <button
+                                                        type="button"
+                                                        class="custom-select-trigger"
+                                                    >
+                                                        <span class="custom-select-text">
+                                                            {{ option.values.first }}
+                                                        </span>
+                                                        <span class="custom-select-icon">
+                                                            {% render 'icon-v2' with icon: 'chevron-down' %}
+                                                        </span>
+                                                    </button>
+
+                                                    <div class="custom-select-dropdown">
+                                                        <div>
+                                                            {% for value in option.values %}
+                                                                <button
+                                                                    type="button"
+                                                                    class="
+                                                                        custom-select-option
+                                                                        {% if forloop.first %}is-active{% endif %}
+                                                                    "
+                                                                    data-value="{{ value }}"
+                                                                >
+                                                                    {{ value }}
+                                                                </button>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </custom-select>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <button
+                                    class="quick-add-atc"
+                                    type="button"
+                                    data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                                >
+                                    <span class="quick-add-atc-text">ADD TO CART</span>
+
+                                    {% render 'icon-v2' with icon: 'arrow', class: "cta-button-arrow" %}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- PRODUCT JSON -->
+                        <script type="application/json" class="product-json">
+                            {{ product | json }}
+                        </script>
+                    </div>
+                </quick-add-modal>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Products grid v2",
+  "settings": [
+    {
+        "type": "inline_richtext",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Tisso vison in the wild"
+    },
+    {
+        "type": "product_list",
+        "id": "prods",
+        "label": "Select products"
+    },
+    {
+        "type": "header",
+        "content": "Grid settings"
+    },
+    {
+        "type": "range",
+        "id": "cols",
+        "label": "Columns (Desktop)",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+    },
+    {
+        "type": "range",
+        "id": "cols_sm",
+        "label": "Columns (Mobile)",
+        "min": 1,
+        "max": 3,
+        "step": 1,
+        "default": 2
+    },
+    {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme"
+    },
+    {
+        "type": "header",
+        "content": "Desktop spacing"
+    },
+    {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Top spacing",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 90
+    },
+    {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Bottom spacing",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 50
+    },
+    {
+        "type": "header",
+        "content": "Mobile spacing"
+    },
+    {
+        "type": "range",
+        "id": "padding_top_sm",
+        "label": "Top spacing",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 40
+    },
+    {
+        "type": "range",
+        "id": "padding_bottom_sm",
+        "label": "Bottom spacing",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "default": 24
+    }
+  ],
+  "presets": [
+        {
+            "name": "Products grid v2",
+            "category": "Chirag's sections"
+        }
+  ]
+}
+{% endschema %}
