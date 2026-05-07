@@ -6,11 +6,58 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
-    
+    "hero_banner_v2_dwpaFx": {
+      "type": "hero-banner-v2",
+      "name": "Hero banner v2",
+      "settings": {
+        "banner": "shopify://shop_images/hero-banner-desktop.png",
+        "size": "custom",
+        "height": 780,
+        "banner_sm": "shopify://shop_images/hero-banner-mobile.png",
+        "size_sm": "custom",
+        "height_sm": 420,
+        "heading": "The Gift Guide",
+        "desc": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>",
+        "desc_sm": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>",
+        "btn_label": "SHOP NOW",
+        "btn_link": "",
+        "text": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "text_sm": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_sm": 0,
+        "padding_bottom_sm": 0
+      }
+    },
+    "products_grid_v2_thDfN4": {
+      "type": "products-grid-v2",
+      "name": "Products grid v2",
+      "settings": {
+        "heading": "Tisso vison in the wild",
+        "prods": [
+          "black-leather-bag",
+          "blue-silk-tuxedo",
+          "chequered-red-shirt",
+          "classic-leather-jacket",
+          "classic-varsity-top",
+          "dark-denim-top"
+        ],
+        "cols": 3,
+        "cols_sm": 2,
+        "color_scheme": "",
+        "padding_top": 90,
+        "padding_bottom": 50,
+        "padding_top_sm": 40,
+        "padding_bottom_sm": 24
+      }
+    }
   },
   "order": [
-    
+    "hero_banner_v2_dwpaFx",
+    "products_grid_v2_thDfN4"
   ]
 }
