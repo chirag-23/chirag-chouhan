@@ -50,17 +50,79 @@
     },
     "products_grid_v2_thDfN4": {
       "type": "products-grid-v2",
+      "blocks": {
+        "prod_card_LNKdLn": {
+          "type": "prod_card",
+          "settings": {
+            "product": "black-leather-bag",
+            "left": 58,
+            "top": 54,
+            "left_sm": 56,
+            "top_sm": 55
+          }
+        },
+        "prod_card_CLdnWB": {
+          "type": "prod_card",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "left": 82,
+            "top": 49,
+            "left_sm": 78,
+            "top_sm": 48
+          }
+        },
+        "prod_card_ACt4J9": {
+          "type": "prod_card",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "left": 60,
+            "top": 22,
+            "left_sm": 58,
+            "top_sm": 20
+          }
+        },
+        "prod_card_9ziMLQ": {
+          "type": "prod_card",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "left": 68,
+            "top": 18,
+            "left_sm": 68,
+            "top_sm": 18
+          }
+        },
+        "prod_card_N4nKdV": {
+          "type": "prod_card",
+          "settings": {
+            "product": "classic-varsity-top",
+            "left": 48,
+            "top": 24,
+            "left_sm": 48,
+            "top_sm": 24
+          }
+        },
+        "prod_card_RXGUQz": {
+          "type": "prod_card",
+          "settings": {
+            "product": "dark-denim-top",
+            "left": 74,
+            "top": 38,
+            "left_sm": 74,
+            "top_sm": 38
+          }
+        }
+      },
+      "block_order": [
+        "prod_card_LNKdLn",
+        "prod_card_CLdnWB",
+        "prod_card_ACt4J9",
+        "prod_card_9ziMLQ",
+        "prod_card_N4nKdV",
+        "prod_card_RXGUQz"
+      ],
       "name": "Products grid v2",
       "settings": {
         "heading": "Tisso vison in the wild",
-        "prods": [
-          "black-leather-bag",
-          "blue-silk-tuxedo",
-          "chequered-red-shirt",
-          "classic-leather-jacket",
-          "classic-varsity-top",
-          "dark-denim-top"
-        ],
         "cols": 3,
         "cols_sm": 2,
         "color_scheme": "",

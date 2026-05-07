@@ -18,16 +18,33 @@
             {{ section.settings.heading }}
         </h2>
     {% endif %}
-    {% if section.settings.prods != blank %}
+    {% if section.blocks.size >= 1 %}
         <div class="product-grid">
-            {% for product in section.settings.prods %}
-                <button
+            {% for block in section.blocks %}
+                {% assign product = all_products[block.settings.product] %}
+                
+                <div 
                     class="product-card"
-                    type="button"
-                    data-product-handle="{{ product.handle }}"
+                    style="
+                        --left-pos: {{ block.settings.left }}%;
+                        --top-pos: {{ block.settings.top }}%;
+                        --left-pos-sm: {{ block.settings.left_sm }}%;
+                        --top-pos-sm: {{ block.settings.top_sm }}%;
+                    "
                 >
                     {{ product.featured_image | image_url: width: 720 | image_tag: class: 'prod-img', loading: 'lazy', alt: product.title }}
-                </button>
+                    <button
+                        class="quick-add-trigger"
+                        type="button"
+                        aria-label="Quick add trigger"
+                        data-product-handle="{{ product.handle }}"
+                    >
+                        <svg width="10" height="10" class="trigger-plus-icon" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.98047 0.75V9.21154" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                            <path d="M0.75 4.98071H9.21154" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
 
                 <quick-add-modal
                     class="quick-add-modal"
@@ -172,11 +189,6 @@
         "default": "Tisso vison in the wild"
     },
     {
-        "type": "product_list",
-        "id": "prods",
-        "label": "Select products"
-    },
-    {
         "type": "header",
         "content": "Grid settings"
     },
@@ -250,6 +262,67 @@
         "step": 2,
         "unit": "px",
         "default": 24
+    }
+  ],
+  "blocks": [
+    {
+        "type": "prod_card",
+        "name": "Product card",
+        "settings": [
+            {
+                "type": "product",
+                "label": "Select product",
+                "id": "product"
+            },
+            {
+                "type": "header",
+                "content": "Hotspot button position - Desktop"
+            },
+            {
+                "type": "range",
+                "id": "left",
+                "label": "Position from left",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "default": 40
+            },
+            {
+                "type": "range",
+                "id": "top",
+                "label": "Position from top",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "default": 40
+            },
+            {
+                "type": "header",
+                "content": "Hotspot button position - Mobile"
+            },
+            {
+                "type": "range",
+                "id": "left_sm",
+                "label": "Position from left",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "default": 40
+            },
+            {
+                "type": "range",
+                "id": "top_sm",
+                "label": "Position from top",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "default": 40
+            }
+        ]
     }
   ],
   "presets": [

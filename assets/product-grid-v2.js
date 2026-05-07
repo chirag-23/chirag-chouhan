@@ -92,17 +92,16 @@ class QuickAddModal extends HTMLElement {
                 });
             });
 
-        this.querySelectorAll('.quick-add-select')
+        this.querySelectorAll('custom-select')
             .forEach(select => {
-                select.addEventListener('change', () => {
-                    const optionPosition =
-                        Number(select.dataset.optionPosition) - 1;
 
-                    const optionName =
-                        this.productData.options[optionPosition];
+                select.addEventListener('select:change', (event) => {
+                    const optionPosition = Number(select.dataset.optionPosition) - 1;
 
-                    this.selectedOptions[optionName] = select.value;
-
+                    const optionName = this.productData.options[optionPosition];
+                    
+                    this.selectedOptions[optionName] = event.detail.value;
+                    
                     this.updateVariant();
                 });
             });
