@@ -1,0 +1,150 @@
+{{ 'header-v2.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'header-v2.js' | asset_url }}" defer></script>
+
+<header-v2 
+    class="header-v2 color-{{ section.settings.color_scheme }}"
+    style="
+        --padding-top: {{ section.settings.padding_top }}px;
+        --padding-bottom: {{ section.settings.padding_bottom }}px;
+        --padding-top-sm: {{ section.settings.padding_top_sm }}px;
+        --padding-bottom-sm: {{ section.settings.padding_bottom_sm }}px;
+    "
+>
+    <div class="header-container">
+      <button aria-label="Open header drawer" class="menu-toggle">
+          {% render 'icon-v2' with icon: 'hamburger', class: " hamburger " %}
+          {% render 'icon-v2' with icon: 'cross', class: " cross " %}
+      </button>
+
+      {% if section.settings.logo != blank %}
+        <div class="logo">
+          {{ section.settings.logo | image_url: width: 800 | image_tag: class: 'logo-image', loading: 'eager', alt: section.settings.logo.alt }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <p class="text-content hide-on-mobile">
+          {{ section.settings.text }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.btn_label != blank %}
+        <button class="cta-button hide-on-mobile">
+          <span>{{ section.settings.btn_label }}</span>
+          {% render 'icon-v2' with icon: 'arrow', class: " cta-button-arrow " %}
+        </button>
+      {% endif %}
+    </div>
+    <div class="header-drawer">
+      <div class="header-drawer-inner">
+        <div class="mobile-drawer-content">
+          {% if section.settings.text != blank %}
+            <p class="text-content">
+              {{ section.settings.text }}
+            </p>
+          {% endif %}
+
+          {% if section.settings.btn_label != blank %}
+            <a 
+              href="{{ section.settings.btn_link }}"
+              class="cta-button"
+            >
+              <span>{{ section.settings.btn_label }}</span>
+
+              {% render 'icon-v2' with icon: 'arrow', class: "cta-button-arrow" %}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</header-v2>
+
+{% schema %}
+{
+  "name": "Header v2",
+  "settings": [
+    {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+    },
+    {
+        "type": "inline_richtext",
+        "id": "text",
+        "label": "Content",
+        "default": "Find the ideal gift for your loved ones."
+    },
+    {
+        "type": "text",
+        "id": "btn_label",
+        "label": "Button label",
+        "default": "CHOOSE GIFT"
+    },
+    {
+        "type": "url",
+        "id": "btn_link",
+        "label": "Button link"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Desktop spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Mobile spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_sm",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_sm",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 22
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header v2",
+      "category": "Chirag's sections"
+    }
+  ]
+}
+{% endschema %}
