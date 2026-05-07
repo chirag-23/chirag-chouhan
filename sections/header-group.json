@@ -10,24 +10,6 @@
 {
   "type": "header",
   "name": "Header",
-  "sections": {
-    "header_v2_HYTcGY": {
-      "type": "header-v2",
-      "name": "Header v2",
-      "settings": {
-        "logo": "shopify://shop_images/tisson-vision-logo.svg",
-        "text": "Find the ideal gift for your loved ones.",
-        "btn_label": "CHOOSE GIFT",
-        "btn_link": "",
-        "color_scheme": "scheme-2",
-        "padding_top": 10,
-        "padding_bottom": 10,
-        "padding_top_sm": 22,
-        "padding_bottom_sm": 22
-      }
-    }
-  },
-  "order": [
-    "header_v2_HYTcGY"
-  ]
+  "sections": {},
+  "order": []
 }
