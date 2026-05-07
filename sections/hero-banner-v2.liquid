@@ -1,0 +1,301 @@
+{{ 'hero-banner-v2.css' | asset_url | stylesheet_tag }}
+
+<section 
+    class="hero-banner-container color-{{ section.settings.color_scheme }}"
+    style="
+        --padding-top: {{ section.settings.padding_top }}px;
+        --padding-bottom: {{ section.settings.padding_bottom }}px;
+        --padding-top-sm: {{ section.settings.padding_top_sm }}px;
+        --padding-bottom-sm: {{ section.settings.padding_bottom_sm }}px;
+
+        {% if section.settings.size == 'custom' %} 
+            --banner-height: {{ section.settings.height }}px;
+        {% else %}
+            --banner-height: {{ section.settings.size }};
+        {% endif %}
+
+        {% if section.settings.size_sm == 'custom' %} 
+            --banner-height-sm: {{ section.settings.height_sm }}px;
+        {% else %}
+            --banner-height-sm: {{ section.settings.size_sm }};
+        {% endif %}
+    "
+>
+    <div class="hero-banner">
+        {% if section.settings.banner != blank %}
+            <picture class="hero-banner-media">
+                {% if section.settings.banner_sm != blank %}
+                    <source
+                    media="(max-width: 768px)"
+                    sizes="100vw"
+                    srcset="
+                        {{ section.settings.banner_sm | image_url: width: 400 }} 400w,
+                        {{ section.settings.banner_sm | image_url: width: 800 }} 800w,
+                        {{ section.settings.banner_sm | image_url: width: 1200 }} 1200w
+                    "
+                    >
+                {% endif %}
+
+                <source
+                    media="(min-width: 769px)"
+                    sizes="100vw"
+                    srcset="
+                        {{ section.settings.banner | image_url: width: 1200 }} 1200w,
+                        {{ section.settings.banner | image_url: width: 1600 }} 1600w,
+                        {{ section.settings.banner | image_url: width: 2000 }} 2000w
+                    "
+                >
+
+                {{
+                    section.settings.banner
+                    | image_url: width: 2000
+                    | image_tag:
+                    class: 'hero-banner-image',
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    alt: section.settings.heading
+                }}
+            </picture>
+        {% endif %}
+
+        <div class="banner-content">
+            <div class="banner-content-inner">
+                <div class="banner-content-heading-container">
+                    {% if section.settings.heading %}
+                        <h1 class="banner-content-heading">
+                            {{ section.settings.heading }}
+                        </h1>
+                    {% endif %}
+                    {% if section.settings.desc_sm != blank %}
+                        <div class="banner-content-desc-sm">
+                            {{ section.settings.desc_sm }}
+                        </div>  
+                    {% endif %}
+                </div>
+                {% if section.settings.desc != blank %}
+                    <div class="banner-content-desc">
+                        {{ section.settings.desc }}
+                    </div>  
+                {% endif %}
+                {% if section.settings.btn_label != blank %}
+                    <a 
+                        href="{{ section.settings.btn_link }}"
+                        class="banner-cta-button"
+                    >
+                        <span>{{ section.settings.btn_label }}</span>
+
+                        {% render 'icon-v2' with icon: 'arrow', class: "cta-button-arrow" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% if section.settings.text != blank %}
+        <div class="banner-text-strip">
+            {{ section.settings.text }}
+        </div>
+    {% endif %}
+    {% if section.settings.text_sm != blank %}
+        <div class="banner-text-strip-sm">
+            {{ section.settings.text_sm }}
+        </div>
+    {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner v2",
+  "settings": [
+    {
+        "type": "header",
+        "content": "Desktop banner"
+    },
+    {
+        "type": "image_picker",
+        "id": "banner",
+        "label": "Banner image"
+    },
+    {
+        "type": "select",
+        "id": "size",
+        "label": "Banner size",
+        "options": [
+            {
+                "label": "Auto",
+                "value": "auto"
+            },
+            {
+                "label": "Full screen",
+                "value": "100dvh"
+            },
+            {
+                "label": "Custom height",
+                "value": "custom"
+            }
+        ],
+        "default": "custom",
+        "visible_if": "{{ section.settings.banner != blank }}"
+    },
+    {
+        "type": "range",
+        "id": "height",
+        "label": "Banner height",
+        "min": 400,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "default": 780,
+        "visible_if": "{{ section.settings.banner != blank and  section.settings.size == 'custom' }}"
+    },
+    {
+        "type": "header",
+        "content": "Mobile banner"
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_sm",
+        "label": "Banner image"
+    },
+    {
+        "type": "select",
+        "id": "size_sm",
+        "label": "Banner size",
+        "options": [
+            {
+                "label": "Auto",
+                "value": "auto"
+            },
+            {
+                "label": "Full screen",
+                "value": "100dvh"
+            },
+            {
+                "label": "Custom height",
+                "value": "custom"
+            }
+        ],
+        "default": "custom",
+        "visible_if": "{{ section.settings.banner_sm != blank }}"
+    },
+    {
+        "type": "range",
+        "id": "height_sm",
+        "label": "Banner height",
+        "min": 200,
+        "max": 800,
+        "step": 10,
+        "unit": "px",
+        "default": 420,
+        "visible_if": "{{ section.settings.banner_sm != blank and section.settings.size_sm == 'custom' }}"
+    },
+    {
+        "type": "header",
+        "content": "Text content"
+    },
+    {
+        "type": "inline_richtext",
+        "id": "heading",
+        "label": "Heading",
+        "default": "The Gift Guide"
+    },
+    {
+        "type": "richtext",
+        "id": "desc",
+        "label": "Description (Desktop)",
+        "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
+    },
+    {
+        "type": "richtext",
+        "id": "desc_sm",
+        "label": "Description (Mobile)",
+        "default": "<p>Discover Joy: Your Ultimate Holiday Gift Destination.</p>"
+    },
+    {
+        "type": "text",
+        "id": "btn_label",
+        "label": "Button label",
+        "default": "SHOP NOW"
+    },
+    {
+        "type": "url",
+        "id": "btn_link",
+        "label": "Button link"
+    },
+    {
+        "type": "header",
+        "content": "Bottom text strip"
+    },
+    {
+        "type": "inline_richtext",
+        "id": "text",
+        "label": "Text (Desktop)",
+        "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+        "type": "inline_richtext",
+        "id": "text_sm",
+        "label": "Text (Mobile)",
+        "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Desktop spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_sm",
+      "label": "Top spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_sm",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner v2",
+      "category": "Chirag's sections"
+    }
+  ]
+}
+{% endschema %}

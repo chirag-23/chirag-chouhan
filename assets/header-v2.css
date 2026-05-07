@@ -77,16 +77,19 @@
     justify-content: center;
     gap: 18px;
     max-width: 244px;
-
     height: 44px;
     padding: 10px 22px 10px 40px;
+
+    font-size: 16px;
+    line-height: 84%;
 
     border: none;
     background: #FFF544;
     color: #000000;
     cursor: pointer;
+    box-shadow: none;
 
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
 .cta-button::before {
@@ -102,6 +105,7 @@
 
 .cta-button:hover {
     color: #ffffff;
+    box-shadow: 0px 2px 4px 0px #00000033;
 }
 
 .cta-button:hover::before {
